@@ -123,10 +123,16 @@ else
 	$(MAKE) -C zlib-1.2.11 install
 endif
 
+
+
 $(rtmidi):
 	$(WGET) "https://vcvrack.com/downloads/dep/rtmidi.tgz"
 	$(UNTAR) rtmidi.tgz
+ifdef ARCH_LIN
+	cd rtmidi && $(CONFIGURE) --with-jack
+else
 	cd rtmidi && $(CONFIGURE)
+endif
 	$(MAKE) -C rtmidi
 	$(MAKE) -C rtmidi install
 
@@ -164,7 +170,7 @@ $(pffft):
 	$(WGET) "https://bitbucket.org/jpommier/pffft/get/29e4f76ac53b.zip"
 	$(UNZIP) 29e4f76ac53b.zip
 	cp jpommier-pffft-29e4f76ac53b/*.h include/
-	
+
 $(argagg): $(wildcard argagg/include/argagg/*.hpp)
 	cp argagg/include/argagg/*.hpp include/
 
